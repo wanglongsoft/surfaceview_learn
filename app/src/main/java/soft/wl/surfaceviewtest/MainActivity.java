@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private Button pause_button = null;
 
     private Boolean m_isManToPlay = false;
+    private int current_position = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         m_isManToPlay = false;
-
+        current_position = 0;
         surfaceView = (SurfaceView) findViewById(R.id.surface_view);
 
         if(null != surfaceView) {
@@ -41,6 +42,10 @@ public class MainActivity extends AppCompatActivity {
                     if(m_isManToPlay) {
                         m_isManToPlay = false;
                         mediaPlayer.start();
+                    } else {
+                        if(current_position != 0) {
+                            mediaPlayer.seekTo(current_position);
+                        }
                     }
                 }
 
@@ -134,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
             m_isManToPlay = true;
             mediaPlayer.pause();
         }
+        current_position = mediaPlayer.getCurrentPosition();
     }
 
     @Override
@@ -151,5 +157,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         m_isManToPlay = false;
+        current_position = 0;
     }
 }
