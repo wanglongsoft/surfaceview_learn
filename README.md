@@ -31,8 +31,8 @@ surfaceView.getHolder().addCallback(new SurfaceHolder.Callback() {
     }
 
     @Override
-    public void surfaceDestroyed(SurfaceHolder surfaceHolder) {//SurfaceView的Surface时画面不在前台时调用
-        Log.d(TAG, "surfaceDestroyed: ");                      //TextureView的Surface时画面销毁时调用
+    public void surfaceDestroyed(SurfaceHolder surfaceHolder) {//SurfaceView的Surface是画面不在前台时调用
+        Log.d(TAG, "surfaceDestroyed: ");                      //TextureView的Surface是画面销毁时调用
     }
 });
 ```
@@ -42,13 +42,12 @@ surfaceView.getHolder().addCallback(new SurfaceHolder.Callback() {
 ```java
 mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.video_test);
 ```
-2. 只创建实例，随后设置播放源，MediaPlayer处于***Idle***状态
+2. 只创建实例，随后设置播放源
 ```java
-mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.video_test);//构造时，传入视频源
-mediaPlayer = new MediaPlayer();
+mediaPlayer = new MediaPlayer();//MediaPlayer处于Idle状态
 try {
-    mediaPlayer.setDataSource(getAssets().openFd("audio_test.mp3"));
-    mediaPlayer.prepareAsync();//构造时，不传视频源，需要prepare
+    mediaPlayer.setDataSource(getAssets().openFd("audio_test.mp3"));//MediaPlayer处于Initialized状态
+    mediaPlayer.prepareAsync();//MediaPlayer处于Preparing状态
 } catch (IOException e) {
     e.printStackTrace();
 }
@@ -57,7 +56,7 @@ try {
 ```java
 mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
     @Override
-    public void onPrepared(MediaPlayer mediaPlayer) {
+    public void onPrepared(MediaPlayer mediaPlayer) {//MediaPlayer处于Prepared状态
         Log.d(TAG, "onPrepared: ");
         mediaPlayer.seekTo(1);//处理onPrepared时，surface区域黑屏
     }
